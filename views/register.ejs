@@ -1,0 +1,56 @@
+<%- include('./layouts/header') %>
+
+<h1>Register</h1>
+<form action="/auth/register" method="post" class="lg-form">
+  <label for="email">Email/Username</label>
+    <input
+      type="text"
+      name="email"
+      id="email"
+      value="<%= locals.email ? email : '' %>"
+    />
+  </div>
+  <div>
+      <label for="given">First Name</label>
+      <input type="text" id="given" name="given" required>
+  </div> 
+  <div>
+      <label for="family">Last Name</label>
+      <input type="text" id="family" name="family" required>
+  </div>
+  <div>
+  <div>
+      <label for="gender">Gender</label><br>
+        Male: <input type="radio" name="gender" value="male" id="gender">
+        Female: <input type="radio" name="gender" value="female" id="gender">
+        Trans: <input type="radio" name="gender" value="trans" id="gender">
+        Other: <input type="radio" name="gender" value="other" id="gender">
+        Unknown: <input type="radio" name="gender" value="unknown" id="gender">
+  </div>
+  <div>
+            <label for="birthDate">Birth Date</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+        </div>
+        <div>
+      <label for="">First Name</label>
+      <input type="text" id="given" name="given" required>
+  </div> 
+  <div>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" />
+  </div>
+  <div>
+    <label for="password2">Confirm password</label>
+    <input type="password" name="password2" id="password2" />
+  </div>
+  <div>
+    <input type="submit" value="Register" />
+  </div>
+</form>
+<div>
+  <p>
+    Already have an account? <span><a href="/auth/login">Login</a></span>
+  </p>
+</div>
+<br />
+<%- include('./layouts/footer') %>

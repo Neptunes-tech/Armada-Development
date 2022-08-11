@@ -1,0 +1,252 @@
+
+
+ /*
+ * {
+   
+   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #fff;
+  font-family:;
+  font-family: ;
+
+  max-width: ;
+  margin: ;
+  font-size: 1rem;
+}
+
+nav {
+  display: ;
+  justify-content: ;
+  padding: 1rem 0;
+}
+
+nav > ul > li {
+  list-style: ;
+  display: ;
+}
+
+nav > ul > li > a,
+a {
+  text-decoration: ;
+  color: ;
+  padding: ;
+  border-radius: ;
+}
+
+nav > ul > li > a:hover,
+a:hover {
+  background-color: ;
+}
+
+h1.title {
+  text-align: ;
+  margin: 1rem;
+  text-decoration: ;
+}
+div.info {
+  border: ;
+  padding: ;
+  border-radius: ;
+  margin-top: ;
+}
+ol.info {
+  font-size: ;
+  padding: ;
+  list-style-type: square; 
+   list-style: disc; 
+}
+
+.info > li {
+  margin: ;
+}
+
+main {
+  display:;
+  flex-direction:;
+  justify-content: ;
+  align-items: ;
+}
+
+form.lg-form {
+  margin: ;
+  padding: ;
+  border: ;
+  min-width: ;
+  border-radius: ;
+}
+
+.lg-form label,
+.lg-form input {
+  display: ;
+  min-width: ;
+  margin: ;
+}
+
+.lg-form label {
+  font-weight: ;
+}
+
+.lg-form input {
+  height: ;
+  border: ;
+  border-radius: ;
+  padding: ;
+  font-size: ;
+  background-color: ;
+}
+
+.lg-form input[type='submit'] {
+  margin: ;
+  background-color: ;
+  color: ;
+  cursor: pointer;
+}
+
+input:focus {
+  outline: ;
+  background-color:;
+  border: ;
+  box-shadow: ; 
+}
+
+h1.table {
+  text-decoration: ;
+  margin: ;
+}
+
+table {
+  margin-top: ;
+  min-width: ;
+  border: ;
+  border-spacing: ;
+  border: ;
+  padding: ;
+  border-radius: ;
+}
+
+thead {
+  font-size: 1.25rem;
+  color:;
+}
+
+thead tr {
+  border-radius: ;
+  background-color: ;
+  overflow: ;
+}
+
+thead th {
+  padding: ;
+  text-align: ;
+  padding-left: ;
+}
+
+table th:first-child {
+  border-radius: ;
+}
+
+table th:last-child {
+  border-radius: ;
+}
+
+thead th:nth-child(1) {
+  max-width:;
+}
+
+tbody tr:hover {
+ background-color: #fdf2f8; 
+}
+
+tbody tr td {
+  padding: ;
+  margin: ;
+}
+
+.manage-user-form input[type='submit'] {
+  background: ;
+  color: ;
+  border: ;
+  outline: ;
+  padding: x;
+  cursor: pointer;
+  border-radius: ;
+}
+
+.manage-user-form input[type='submit']:hover {
+  background-color: ;
+}
+
+.manage-user-form select {
+  border: ;
+  font-size: ;
+  padding: ;
+  border-radius: ;
+  border: ;
+}
+
+thead tr th:first-child,
+tbody tr td:first-child {
+  width: ;
+  min-width: ;
+  max-width: ;
+  overflow: ;
+  text-overflow: ;
+  padding: ;
+}
+
+.profile {
+  min-width: ;
+  padding: ;
+  border: ;
+  border-radius: ;
+  margin-top: ;
+}
+
+.profile > div {
+  padding: ;
+}
+
+.profile .title {
+  font-weight: ;
+}
+
+.goback {
+  cursor: ;
+}
+
+div.messages {
+  display: ;
+  justify-content: ;
+  align-items: ;
+}
+
+ul.messages {
+  list-style: ;
+  min-width: ;
+  max-width: ;
+  border-radius: ;
+  overflow: ;
+  margin: ;
+}
+
+ul.messages * {
+  padding: x;
+}
+
+.messages .error {
+  background-color: ;
+}
+.messages .success {
+  background-color: ;
+}
+.messages .warning {
+  background-color: ;
+}
+.messages .info {
+   /*background-color: ; 
+}
+*/

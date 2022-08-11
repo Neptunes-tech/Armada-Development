@@ -1,0 +1,51 @@
+<%- include('./layouts/header') %>
+
+<h1 class="title">Armada Telehealth MD</h1>
+<div class="profile">
+  <div>
+    <p class="title">ID</p>
+    <p class="subtitle"><%= person.id %></p>
+  </div>
+  <div>
+    <p class="title">Email/username</p>
+    <p class="subtitle"><%= person.email %></p>
+  </div>
+  <div>
+    <p class="title">Role</p>
+    <p class="subtitle"><%= person.role %></p>
+  </div>
+  <div>
+    <p class="title">User object</p>
+    <pre class="subtitle"><%= person %></pre>
+  </div>
+</div>
+<div class="info">
+  <ol class="info"></ol>
+</div>
+<!-- NAME, AGE, Gender, Notifications -->
+<!-- body image, body systems (vitals, neuro, ENT, Resp, Cardiac, Abdo, Msk, Skin) -->
+
+<!-- Upload Practitioner Notes -->
+
+<!-- Practitioner Notes -->
+
+<!-- upload my documents (.jpg, pdf) -->
+<a href ="views/addDoc.ejs">Add Document</a>
+<!-- My Documents -->
+<div id="myDocuments">
+
+</div>
+<!-- Measurements, Vaccines, Family HX,Screening, Risk Profile, Diet, Flags, Habits, Wearables -->
+
+<!-- Biogenetics, Psycho, Social -->
+
+<!-- Upload Conditions (form) -->
+
+<!-- Conditions -->
+
+<!-- Upload Medications (.jpg, .pdf) -->
+
+<!-- Upload Allergies (form) -->
+
+<!-- Allergies -->
+<%- include('./layouts/footer') %>
