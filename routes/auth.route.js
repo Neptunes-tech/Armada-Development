@@ -57,6 +57,7 @@ router.post(
         res.redirect('/auth/register');
         return;
       }
+      
       const user = new User(req.body);
       await user.save();
       req.flash(
