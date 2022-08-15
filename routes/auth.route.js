@@ -28,58 +28,58 @@ router.get(
   '/register',
   ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
-    res.render('register');
+    res.render('register')
   }
-);
+)
 
 router.post(
   '/register',
-  ensureLoggedOut({ redirectTo: '/' }),
-  registerValidator,
+  // ensureLoggedOut({ redirectTo: '/' }),registerValidator,
   async (req, res, next) => {
     try {
-      const errors = validationResult(req);
+      const errors = validationResult(req)
       if (!errors.isEmpty()) {
         errors.array().forEach((error) => {
-          req.flash('error', error.msg);
-        });
+          req.flash('error', error.msg)
+        })
         res.render('register', {
           email: req.body.email,
           messages: req.flash(),
-        });
-        return;
+        })
+        return
       }
 
-      const { email } = req.body;
-      const doesExist = await User.findOne({ email });
+      const { email } = req.body
+      const doesExist = await User.findOne({ email })
       if (doesExist) {
-        req.flash('warning', 'Username/email already exists');
-        res.redirect('/auth/register');
-        return;
+        // req.flash('warning', 'Username/email already exists')
+        res.redirect('/auth/register')
+        return
       }
-      const user = new User(req.body);
-      await user.save();
-      req.flash(
-        'success',
-        `${user.email} registered succesfully, you can now login`
-      );
-      res.redirect('/auth/login');
+      const user = new User(req.body)
+      await user.save()
+      // req.flash(
+      //   'success',
+      //   `${user.email} registered succesfully, you can now login`
+      // )
+      res.redirect('/auth/login')
     } catch (error) {
-      next(error);
+      console.log('error',error)
+      next(error)
     }
   }
-);
+)
 
 router.get(
   '/logout',
   ensureLoggedIn({ redirectTo: '/' }),
   async (req, res, next) => {
-    req.logout();
-    res.redirect('/auth/login');
+    req.logout()
+    res.redirect('/auth/login')
   }
-);
+)
 
-module.exports = router;
+module.exports = router
 
 //function ensureAuthenticated(req, res, next) {
 //if (req.isAuthenticated()) {

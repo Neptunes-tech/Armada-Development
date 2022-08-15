@@ -1,51 +1,34 @@
-<%- include('./layouts/header') %>
+</head>
 
-<h1 class="title">Armada Telehealth MD</h1>
-<div class="profile">
-  <div>
-    <p class="title">ID</p>
-    <p class="subtitle"><%= person.id %></p>
-  </div>
-  <div>
-    <p class="title">Email/username</p>
-    <p class="subtitle"><%= person.email %></p>
-  </div>
-  <div>
-    <p class="title">Role</p>
-    <p class="subtitle"><%= person.role %></p>
-  </div>
-  <div>
-    <p class="title">User object</p>
-    <pre class="subtitle"><%= person %></pre>
-  </div>
-</div>
-<div class="info">
-  <ol class="info"></ol>
-</div>
-<!-- NAME, AGE, Gender, Notifications -->
-<!-- body image, body systems (vitals, neuro, ENT, Resp, Cardiac, Abdo, Msk, Skin) -->
+<body>
+  <main>
+    <h1>List of Documents</h1>
+    <b> Add file (JPG, PNG, PDF):</b>
+    <!-- <input type="file" id="myfile" name="myfile"> -->
+    <a href="/user/addDocs">CLICK</a>
+    <ol>
+      <% for(var i=0; i < documents.length; i++) {%>
+        <li>
+          <b> TITLE:</b>
+          <%= documents[i].title %> <br />
+            <b> DOCUMENT:</b>
+            <%= documents[i].documentImage %>
+             <form action="/user/documents/delete/<%= documents[i]._id %>" method="post"> <button type="submit" >DELETE</button></form><br />
+              <img src=' <%= documents[i].documentImage %>' height="100px" width="100px" /><br />
 
-<!-- Upload Practitioner Notes -->
+        </li>
+        <% } %>
+          <br /><br /><br /><br />
 
-<!-- Practitioner Notes -->
-
-<!-- upload my documents (.jpg, pdf) -->
-<a href ="views/addDoc.ejs">Add Document</a>
-<!-- My Documents -->
-<div id="myDocuments">
-
-</div>
-<!-- Measurements, Vaccines, Family HX,Screening, Risk Profile, Diet, Flags, Habits, Wearables -->
-
-<!-- Biogenetics, Psycho, Social -->
-
-<!-- Upload Conditions (form) -->
-
-<!-- Conditions -->
-
-<!-- Upload Medications (.jpg, .pdf) -->
-
-<!-- Upload Allergies (form) -->
-
-<!-- Allergies -->
-<%- include('./layouts/footer') %>
+    </ol>
+    <br /><br /><br /><br />
+  </main>
+  <script>
+    function multiple(value) {
+      // showList("listGallery");
+      console.log(value);
+      fetch(`http://localhost:3000/user/documents/delete`, { id: value })
+        .then((response) => console.log(response))
+    }
+  </script>
+</body>
