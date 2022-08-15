@@ -1,12 +1,14 @@
-<div id="uploadDocuments">
+<h3 style="text-align: center;">Add Documents</h3>
+<div id="uploadDocuments" style="display: flex; justify-content: center;">
   <form action="/user/documents/add" method="POST" enctype="multipart/form-data">
-    <div>
-      <label>Title</label>
-      <input type="text" name="title"/>
+    <div style="margin: 16px;">
+
+      <label style="font-size: 26px;">Title:</label>
+      <input style="width: 290px; height: 32px;" type="text" id="name" name="title" />
     </div>
-    <div>
-      <label>System</label>
-      <select name="system">
+    <div style="margin: 16px;">
+      <label style="font-size: 26px;">System:</label>
+      <select style="width: 290px; height: 32px;" name="system">
         <option label="vitals" id="vitals">vitals</option>
         <option label="neuro" id="neuro">neuro</option>
         <option label="ent" id="ent">ent</option>
@@ -16,16 +18,17 @@
         <option label="skin" id="skin">skin</option>
       </select>
     </div>
-    <div>
-      <label>Effective Date</label>
-      <input type="date" name="effectiveDateTime">
+    <div style="margin: 16px;">
+      <label style="font-size: 26px;">Effective Date:</label>
+      <input style="width: 290px; height: 32px;" type="date" name="effectiveDateTime">
     </div>
-    <div>
-      <label>Document</label>
-      <input type="file" name="file" />
+    <div style="margin: 16px;">
+      <label style="font-size: 26px;">Document:</label>
+      <input style="width: 290px; height: 32px;" type="file" name="file" /><br />
+      Add file (JPG, PNG, PDF)
     </div>
-    <div>
-      <button type="submit">Submit</button>
+    <div style="margin: 16px;width: 111px; height: 30px;">
+      <button style="width: 111px; height: 30px; background-color: #1565C0; color: white;" type="submit">Submit</button>
     </div>
   </form>
 </div>
