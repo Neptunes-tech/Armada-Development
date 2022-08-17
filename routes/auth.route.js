@@ -4,37 +4,42 @@ const { body, validationResult } = require('express-validator');
 const passport = require('passport');
 const { ensureLoggedOut, ensureLoggedIn } = require('connect-ensure-login');
 const { registerValidator } = require('../utils/validators');
+const HandyStorage = require('handy-storage');
+const storage = new HandyStorage({ beautify: true })
 
-router.get(
-  '/login',
-  ensureLoggedOut({ redirectTo: '/' }),
+
+router.get('/login',
+  // ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
-    res.render('login');
-  }
-);
+    try {
 
-router.post(
-  '/login',
-  ensureLoggedOut({ redirectTo: '/' }),
-  passport.authenticate('local', {
-    // successRedirect: '/',
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/auth/login',
-    failureFlash: true,
-  })
-);
-
-router.get(
-  '/register',
-  ensureLoggedOut({ redirectTo: '/' }),
-  async (req, res, next) => {
-    res.render('register')
+      return res.render('login')
+    }
+    catch (e) {
+      console.log('e', e)
+    }
   }
 )
 
-router.post(
-  '/register',
-  // ensureLoggedOut({ redirectTo: '/' }),registerValidator,
+router.get('/register',
+  ensureLoggedOut({ redirectTo: '/' }),
+  async (req, res, next) => {
+    res.render('register')
+  })
+
+router.post('/login', passport.authenticate('local'),
+  async (req, res) => {
+    try {
+      res.redirect(`/user/?email=${req?.user.email}`)
+    } catch (e) {
+      console.log('e', e)
+    }
+  }
+);
+
+router.post('/register',
+  // ensureLoggedOut({ redirectTo: '/' }), registerValidator,
+  // ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
     try {
       const errors = validationResult(req)
@@ -64,7 +69,7 @@ router.post(
       // )
       res.redirect('/auth/login')
     } catch (error) {
-      console.log('error',error)
+      console.log('error', error)
       next(error)
     }
   }

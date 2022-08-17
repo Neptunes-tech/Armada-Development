@@ -21,9 +21,10 @@ const documentSchema = new mongoose.Schema({
   //   ],
   //   default: systems.vitals,
   // },
-  systems: { type: String },
+  system: { type: String },
   effectiveDateTime: { type: Date, default: Date.now },
   documentImage: { type: String },
+  userEmail: { type: String }
 });
 
 const Document = mongoose.model("Document", documentSchema);

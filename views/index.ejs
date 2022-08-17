@@ -135,7 +135,7 @@
   }
 
   .del_btn {
-    width: 10%;
+    width: 30%;
     padding: 10px 0;
     margin: 10px auto;
     border-radius: 5px;
@@ -146,48 +146,70 @@
     color: #fff;
   }
 
-  button:hover {
+  .del_btn:hover {
     background: red;
   }
 </style>
 </head>
 
 <body>
+  <script>
+    console.log('abc')
+  </script>
   <main>
     <h1>List of Documents</h1>
     <!-- <b> Add Documents</b> -->
     <!-- <input type="file" id="myfile" name="myfile"> -->
-    <a href="/user/addDocs">Add Documents</a>
+    <button onclick=newDoc()>Add Documents</button>
+    <div>
+      <label style="font-size: 16px">System:</label>
+      <select style="width: 290px; height: 32px;" id="system" name="system" onchange=filterSystem()>
+        <option label="vitals" id="vitals">vitals</option>
+        <option label="neuro" id="neuro">neuro</option>
+        <option label="ent" id="ent">ent</option>
+        <option label="cardiac" id="cardiac">cardiac</option>
+        <option label="abdo" id="abdo">abdo</option>
+        <option label="msk" id="msk">msk</option>
+        <option label="skin" id="skin">skin</option>
+      </select>
+    </div>
     <ol>
       <% for(var i=0; i < documents.length; i++) {%>
-        <li>
-          <b> TITLE:</b>
-          <%= documents[i].title %> <br />
-            <b> DOCUMENT:</b>
-            <%= documents[i].documentImage %>
-            <!-- <a href="">Open Url</a> -->
-            <br />
-            <img src=' <%= documents[i].documentImage %>' height="400px" width="400px" />
-              <form action="/user/documents/delete/<%= documents[i]._id %>" method="post">
-                <button class="del_btn" type="submit">Delete</button>
-                <!-- <div style="width: 111px; height: 30px;     margin-left: -30px;">
-                  <button style="width: 111px; height: 30px;" type="submit">DELETE Document</button>
-                </div> -->
-              </form><br />
-
-        </li>
-        <% } %>
-          <br /><br /><br /><br />
+        <% if (documents[i].system) {%>
+          <li>
+            <b> TITLE:</b>
+            <%= documents[i].title %> <br />
+              <b> system:</b>
+              <%= documents[i].system %><br />
+                <b> DOCUMENT:</b>
+                <!-- <%= documents[i].documentImage %> -->
+                <!-- <a href="">Open Url</a> -->
+                <br />
+                <img src=' <%= documents[i].documentImage %>' height="400px" width="400px" />
+                <form action="/user/documents/delete/<%= documents[i]._id %>" method="post">
+                  <button class="del_btn" type="submit">Delete</button>
+                </form><br />
+          </li>
+          <%} else{%>
+            <h1>No document with this filter</h1>
+            <% } }%>
+              <br /><br />
+              <br /><br />
 
     </ol>
     <br /><br /><br /><br />
   </main>
   <script>
-    function multiple(value) {
-      // showList("listGallery");
-      console.log(value);
-      fetch(`http://localhost:3000/user/documents/delete`, { id: value })
-        .then((response) => console.log(response))
+    document.getElementById('system').value = localStorage.getItem('filterData')
+
+    function filterSystem() {
+      console.log(document.getElementById('system').value)
+      let filterData = document.getElementById('system').value
+      localStorage.setItem('filterData',filterData)
+      window.location.href = `/user/?email=${localStorage.getItem('email')}&system=${filterData}`
+    }
+    function newDoc() {
+      window.location.href = `/user/addDocs/${localStorage.getItem('email')}`
     }
   </script>
 </body>

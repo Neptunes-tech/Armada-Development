@@ -759,6 +759,13 @@ graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
+handy-storage@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/handy-storage/-/handy-storage-2.1.6.tgz#4524c35495a8b0fbb68581ae1fd2226c3723ab53"
+  integrity sha512-N+3LQjiOAUOtBYqOY8oBwo/S5t/dsiq+U72BEUp+DC0hxLsSuSyEXGekXLJm6O8cjZJe3W3RnH1x1Ym/n+HHXA==
+  dependencies:
+    json-beautify "^1.0.1"
+
 has-flag@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
@@ -923,6 +930,11 @@ jake@^10.8.5:
     chalk "^4.0.2"
     filelist "^1.0.1"
     minimatch "^3.0.4"
+
+json-beautify@^1.0.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/json-beautify/-/json-beautify-1.1.1.tgz#8a1ed511ad5d52ca63ed29f7c61896c6a6ebbb9f"
+  integrity sha512-17j+Hk2lado0xqKtUcyAjK0AtoHnPSIgktWRsEXgdFQFG9UnaGw6CHa0J7xsvulxRpFl6CrkDFHght1p5ZJc4A==
 
 jsonfile@^4.0.0:
   version "4.0.0"

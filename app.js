@@ -55,19 +55,32 @@ app.use(connectFlash());
 // });
 
 // Routes
+
 app.use("/", require("./routes/index.route"));
 app.use("/auth", require("./routes/auth.route"));
 app.use("/user", require("./routes/user.route"));
 app.use("/doctor", require("./routes/doctor.route"));
+
+app.use('/',(req,res)=>{
+  res.render('header', {
+    path: 'header'
+    // documents: data
+  })
+})
+
+// app.use('/auth/login',(req,res)=>{
+//   res.render('register', {
+//     path: 'register'
+//   })
+// })
+
 app.use(
   "/admin",
   ensureLoggedIn({ redirectTo: "/auth/login" }),
   ensureAdmin,
   require("./routes/admin.route")
 );
-app.get('/hi', (req,res) => {
-  res.send({ success: true, message: 'HELLO ' })
-})
+
 
 // 404 Handler
 // app.use((req, res, next) => {
@@ -87,8 +100,7 @@ app.use(fileUpload({
 const PORT = process.env.PORT || 3000;
 
 // Making a connection to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
     dbName: process.env.DB_NAME,
     useNewUrlParser: true,
     useUnifiedTopology: true,

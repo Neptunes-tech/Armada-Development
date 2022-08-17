@@ -23,6 +23,7 @@
     "express-session": "^1.17.1",
     "express-static": "^1.2.6",
     "express-validator": "^6.8.0",
+    "handy-storage": "^2.1.6",
     "http-errors": "^1.8.0",
     "mongoose": "^5.11.7",
     "morgan": "^1.10.0",

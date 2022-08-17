@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const { ensureLoggedOut, ensureLoggedIn } = require('connect-ensure-login');
 
-// router.get('/',ensureLoggedIn({ redirectTo: '/auth/login' }), (req, res, next) => {
+router.get('/', (req, res, next) => {
+  res.render('header.ejs')
 // const person = req.user;
-//   res.render('index.ejs', { person });
-// });
+// console.log('person',person)
+  // res.render('index.ejs', { person });
+});
 
 // //Edit User Settings
 // router.get('/settings',ensureLoggedIn({ redirectTo: '/auth/login' }), (req, res, next) => {
@@ -16,9 +18,5 @@ const { ensureLoggedOut, ensureLoggedIn } = require('connect-ensure-login');
 // const person = req.user;
 
 // });
-
-router.get('/test', () => {
-  res.send({ success: true, message: 'HELLO ' })
-})
 
 module.exports = router;
