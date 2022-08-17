@@ -1,51 +1,215 @@
-<%- include('./layouts/header') %>
+<style>
+  html,
+  body {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+  }
 
-<h1 class="title">Armada Telehealth MD</h1>
-<div class="profile">
-  <div>
-    <p class="title">ID</p>
-    <p class="subtitle"><%= person.id %></p>
-  </div>
-  <div>
-    <p class="title">Email/username</p>
-    <p class="subtitle"><%= person.email %></p>
-  </div>
-  <div>
-    <p class="title">Role</p>
-    <p class="subtitle"><%= person.role %></p>
-  </div>
-  <div>
-    <p class="title">User object</p>
-    <pre class="subtitle"><%= person %></pre>
-  </div>
-</div>
-<div class="info">
-  <ol class="info"></ol>
-</div>
-<!-- NAME, AGE, Gender, Notifications -->
-<!-- body image, body systems (vitals, neuro, ENT, Resp, Cardiac, Abdo, Msk, Skin) -->
+  body,
+  div,
+  h1,
+  form,
+  input,
+  p {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 16px;
+    color: #666;
+  }
 
-<!-- Upload Practitioner Notes -->
+  h1 {
+    padding: 10px 0;
+    font-size: 32px;
+    font-weight: 300;
+    text-align: center;
+  }
 
-<!-- Practitioner Notes -->
+  p {
+    font-size: 12px;
+  }
 
-<!-- upload my documents (.jpg, pdf) -->
-<a href ="views/addDoc.ejs">Add Document</a>
-<!-- My Documents -->
-<div id="myDocuments">
+  hr {
+    color: #a9a9a9;
+    opacity: 0.3;
+  }
 
-</div>
-<!-- Measurements, Vaccines, Family HX,Screening, Risk Profile, Diet, Flags, Habits, Wearables -->
+  .main-block {
+    max-width: 340px;
+    min-height: 460px;
+    padding: 10px 0;
+    margin: auto;
+    border-radius: 5px;
+    border: solid 1px #ccc;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, .31);
+    background: #ebebeb;
+  }
 
-<!-- Biogenetics, Psycho, Social -->
+  form {
+    margin: 0 30px;
+  }
 
-<!-- Upload Conditions (form) -->
+  .account-type,
+  .gender {
+    margin: 15px 0;
+  }
 
-<!-- Conditions -->
+  input[type=radio] {
+    display: none;
+  }
 
-<!-- Upload Medications (.jpg, .pdf) -->
+  label#icon {
+    margin: 0;
+    border-radius: 5px 0 0 5px;
+  }
 
-<!-- Upload Allergies (form) -->
+  label.radio {
+    position: relative;
+    display: inline-block;
+    padding-top: 4px;
+    margin-right: 20px;
+    text-indent: 30px;
+    overflow: visible;
+    cursor: pointer;
+  }
 
-<!-- Allergies -->
-<%- include('./layouts/footer') %>
+  label.radio:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1c87c9;
+  }
+
+  label.radio:after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 4px;
+    top: 8px;
+    left: 4px;
+    border: 3px solid #fff;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    opacity: 0;
+  }
+
+  input[type=radio]:checked+label:after {
+    opacity: 1;
+  }
+
+  input[type=text],
+  input[type=password] {
+    width: calc(100% - 57px);
+    height: 36px;
+    margin: 13px 0 0 -5px;
+    padding-left: 10px;
+    border-radius: 0 5px 5px 0;
+    border: solid 1px #cbc9c9;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, .09);
+    background: #fff;
+  }
+
+  input[type=password] {
+    margin-bottom: 15px;
+  }
+
+  #icon {
+    display: inline-block;
+    padding: 9.3px 15px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, .09);
+    background: #1c87c9;
+    color: #fff;
+    text-align: center;
+  }
+
+  .btn-block {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .del_btn {
+    width: 30%;
+    padding: 10px 0;
+    margin: 10px auto;
+    border-radius: 5px;
+    border: none;
+    background: #B71C1C;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .del_btn:hover {
+    background: red;
+  }
+</style>
+</head>
+
+<body>
+  <script>
+    console.log('abc')
+  </script>
+  <main>
+    <h1>List of Documents</h1>
+    <!-- <b> Add Documents</b> -->
+    <!-- <input type="file" id="myfile" name="myfile"> -->
+    <button onclick=newDoc()>Add Documents</button>
+    <div>
+      <label style="font-size: 16px">System:</label>
+      <select style="width: 290px; height: 32px;" id="system" name="system" onchange=filterSystem()>
+        <option label="vitals" id="vitals">vitals</option>
+        <option label="neuro" id="neuro">neuro</option>
+        <option label="ent" id="ent">ent</option>
+        <option label="cardiac" id="cardiac">cardiac</option>
+        <option label="abdo" id="abdo">abdo</option>
+        <option label="msk" id="msk">msk</option>
+        <option label="skin" id="skin">skin</option>
+      </select>
+    </div>
+    <ol>
+      <% for(var i=0; i < documents.length; i++) {%>
+        <% if (documents[i].system) {%>
+          <li>
+            <b> TITLE:</b>
+            <%= documents[i].title %> <br />
+              <b> system:</b>
+              <%= documents[i].system %><br />
+                <b> DOCUMENT:</b>
+                <!-- <%= documents[i].documentImage %> -->
+                <!-- <a href="">Open Url</a> -->
+                <br />
+                <img src=' <%= documents[i].documentImage %>' height="400px" width="400px" />
+                <form action="/user/documents/delete/<%= documents[i]._id %>" method="post">
+                  <button class="del_btn" type="submit">Delete</button>
+                </form><br />
+          </li>
+          <%} else{%>
+            <h1>No document with this filter</h1>
+            <% } }%>
+              <br /><br />
+              <br /><br />
+
+    </ol>
+    <br /><br /><br /><br />
+  </main>
+  <script>
+    document.getElementById('system').value = localStorage.getItem('filterData')
+
+    function filterSystem() {
+      console.log(document.getElementById('system').value)
+      let filterData = document.getElementById('system').value
+      localStorage.setItem('filterData',filterData)
+      window.location.href = `/user/?email=${localStorage.getItem('email')}&system=${filterData}`
+    }
+    function newDoc() {
+      window.location.href = `/user/addDocs/${localStorage.getItem('email')}`
+    }
+  </script>
+</body>

@@ -1,16 +1,15 @@
-<%- include('./layouts/header') %>
 <h1>Login</h1>
-<form action="/auth/login" method="post" class="lg-form">
+<form method="post" action="/auth/login" class="lg-form">
   <div>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email" />
+    <input type="email" name="email" id="email2" onchange=emailSave() />
   </div>
   <div>
     <label for="password">Password</label>
     <input type="password" name="password" id="password" />
   </div>
   <div>
-    <input type="submit" value="Login" />
+    <button type="submit">Login</button>
   </div>
 </form>
 
@@ -20,4 +19,10 @@
   </p>
 </div>
 <br />
-<%- include('./layouts/footer') %>
+<script>
+  function emailSave() {
+    console.log(document.getElementById('email2').value)
+    localStorage.setItem('email',document.getElementById('email2').value)
+  }
+</script>
+<%- include('./footer.ejs') %>

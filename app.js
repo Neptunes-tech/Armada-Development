@@ -9,6 +9,7 @@ const passport = require("passport");
 const connectMongo = require("connect-mongo");
 const { ensureLoggedIn } = require("connect-ensure-login");
 const { roles } = require("./utils/constants");
+const fileUpload = require("express-fileupload")
 
 // Initialization
 const app = express();
@@ -17,21 +18,24 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+// const fileUpload = require("express-fileupload")
+// app.use(fileUpload({
+//     useTempFiles: true
+// }))
 const MongoStore = connectMongo(session);
-// Init Session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      // secure: true,
-      httpOnly: true,
-    },
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  })
-);
+// // Init Session
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       // secure: true,
+//       httpOnly: true,
+//     },
+//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
+//   })
+// );
 
 // For Passport JS Authentication
 app.use(passport.initialize());
@@ -45,16 +49,31 @@ app.use((req, res, next) => {
 
 // Connect Flash
 app.use(connectFlash());
-app.use((req, res, next) => {
-  res.locals.messages = req.flash();
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.messages = req.flash();
+//   next();
+// });
 
 // Routes
+
 app.use("/", require("./routes/index.route"));
 app.use("/auth", require("./routes/auth.route"));
 app.use("/user", require("./routes/user.route"));
 app.use("/doctor", require("./routes/doctor.route"));
+
+app.use('/',(req,res)=>{
+  res.render('header', {
+    path: 'header'
+    // documents: data
+  })
+})
+
+// app.use('/auth/login',(req,res)=>{
+//   res.render('register', {
+//     path: 'register'
+//   })
+// })
+
 app.use(
   "/admin",
   ensureLoggedIn({ redirectTo: "/auth/login" }),
@@ -62,24 +81,26 @@ app.use(
   require("./routes/admin.route")
 );
 
-// 404 Handler
-app.use((req, res, next) => {
-  next(createHttpError.NotFound());
-});
 
-// Error Handler
-app.use((error, req, res, next) => {
-  error.status = error.status || 500;
-  res.status(error.status);
-  res.render("error_40x", { error });
-});
+// 404 Handler
+// app.use((req, res, next) => {
+//   next(createHttpError.NotFound());
+// });
+app.use(fileUpload({
+    useTempFiles: true
+}))
+// // Error Handler
+// app.use((error, req, res, next) => {
+//   error.status = error.status || 500;
+//   res.status(error.status);
+//   res.render("error_40x", { error });
+// });
 
 // Setting the PORT
 const PORT = process.env.PORT || 3000;
 
 // Making a connection to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
     dbName: process.env.DB_NAME,
     useNewUrlParser: true,
     useUnifiedTopology: true,

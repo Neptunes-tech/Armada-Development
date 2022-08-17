@@ -1,0 +1,3 @@
+In index.ejs 
+- Ordered List of Documents is rendered , this list consists of documents(jpg, png, pdf) which can be deleted with a button named delete
+- To add a new Document Add Document link is placed at the top of the list, after clicking this link the page is directed to a route (/user/addDocs), Now this page consist a form with required fields (Title , System, Effective Date, Document).After Submitting it calls a route (user/documents/add) to add document by through cloudinary in mongoDb.

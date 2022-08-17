@@ -6,7 +6,8 @@ const { roles, systems } = require("../utils/constants");
 const UserSchema = new mongoose.Schema({
   given: {
     type: String,
-    require: true,
+    // require: true,
+    require: false,
     maxlength: 32,
     trim: true,
   },
@@ -59,7 +60,7 @@ UserSchema.pre("save", async function (next) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(this.password, salt);
       this.password = hashedPassword;
-      if (this.email === process.env.ADMIN_EMAIL.toLowerCase()) {
+      if (this.email === process.env.ADMIN_EMAIL?.toLowerCase()) {
         this.role = roles.admin;
       }
     }
