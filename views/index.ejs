@@ -154,7 +154,6 @@
 
 <body>
   <script>
-    console.log('abc')
   </script>
   <main>
     <h1>List of Documents</h1>
@@ -206,10 +205,10 @@
       console.log(document.getElementById('system').value)
       let filterData = document.getElementById('system').value
       localStorage.setItem('filterData',filterData)
-      window.location.href = `/user/?email=${localStorage.getItem('email')}&system=${filterData}`
+      window.location.href = `/user/?system=${filterData}`
     }
     function newDoc() {
-      window.location.href = `/user/addDocs/${localStorage.getItem('email')}`
+      window.location.href = `/user/addDocs`
     }
   </script>
 </body>
