@@ -7,9 +7,7 @@ const { registerValidator } = require('../utils/validators');
 const HandyStorage = require('handy-storage');
 const storage = new HandyStorage({ beautify: true })
 
-
 router.get('/login',
-  // ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
     try {
 
@@ -27,19 +25,20 @@ router.get('/register',
     res.render('register')
   })
 
-router.post('/login', passport.authenticate('local'),
-  async (req, res) => {
-    try {
-      res.redirect(`/user/?email=${req?.user.email}`)
-    } catch (e) {
-      console.log('e', e)
-    }
+router.post('/login', passport.authenticate('local', {
+  failureRedirect: '/auth/login',
+  failureFlash: true,
+
+}), async (req, res) => {
+  try {
+    res.redirect(`/user/`)
+  } catch (e) {
+    console.log('e', e)
   }
+}
 );
 
 router.post('/register',
-  // ensureLoggedOut({ redirectTo: '/' }), registerValidator,
-  // ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
     try {
       const errors = validationResult(req)
@@ -75,9 +74,7 @@ router.post('/register',
   }
 )
 
-router.get(
-  '/logout',
-  ensureLoggedIn({ redirectTo: '/' }),
+router.get('/logout',
   async (req, res, next) => {
     req.logout()
     res.redirect('/auth/login')
@@ -86,18 +83,17 @@ router.get(
 
 module.exports = router
 
-//function ensureAuthenticated(req, res, next) {
-//if (req.isAuthenticated()) {
-//next();
-//} else {
-//res.redirect('/auth/login');
-//}
-//}
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect('/auth/login');
+  }
+}
 
-//function ensureNOTAuthenticated(req, res, next) {
-//if (req.isAuthenticated()) {
-//res.redirect('/auth/login');
-//} else {
-//next();
-//}
-//}
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect('/')
+  }
+  next()
+}

@@ -15,14 +15,11 @@ const { executionAsyncId } = require("async_hooks");
 // })
 
 
-router.get("/", async (req, res) => {
+router.get("/", checkAuthenticated, async (req, res) => {
   try {
-    let email = req?.query.email
+    let email = req?.user.email
     let system = req?.query.system
-    console.log('email', email)
-    console.log('system', system)
     if (system) {
-
       await Document.find({ userEmail: email, system: system }, async (err, data) => {
         if (err) {
           return res.send({
@@ -30,7 +27,6 @@ router.get("/", async (req, res) => {
             message: 'Something Went Wrong!'
           })
         }
-        console.log(data)
         res.render('index', {
           path: 'index',
           documents: data,
@@ -45,7 +41,6 @@ router.get("/", async (req, res) => {
             message: 'Something Went Wrong!'
           })
         }
-        console.log(data)
         res.render('index', {
           path: 'index',
           documents: data,
@@ -58,7 +53,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/documents/delete/:id", async (req, res) => {
+router.post("/documents/delete/:id",checkAuthenticated, async (req, res) => {
   try {
     let id = req.params.id
     let email;
@@ -69,7 +64,7 @@ router.post("/documents/delete/:id", async (req, res) => {
       if (err) {
         return res.send({ success: false, message: 'Something Went Wrong!' })
       }
-      res.redirect(`/user/${email}`);
+      res.redirect(`/user`);
       return res.send({ success: true, message: 'Successfully Deleted' })
     })
   } catch (e) {
@@ -78,17 +73,17 @@ router.post("/documents/delete/:id", async (req, res) => {
   }
 });
 
-router.get('/addDocs/:email', async (req, res) => {
-  let email = req?.params.email
+router.get('/addDocs', checkAuthenticated, async (req, res) => {
+
   return res.render('docuadd', {
-    path: 'docuadd',
-    documents: email
+    path: 'docuadd'
   })
+
 })
 
-router.post("/documents/add/:email", uploadImage().single('file'), async (req, res) => {
+router.post("/documents/add", checkAuthenticated, uploadImage().single('file'), async (req, res) => {
   try {
-    let email = req.params.email
+    let email = req?.user.email
     const { body } = req
     let fileName = req.file != null ? req.file : null
 
@@ -108,10 +103,9 @@ router.post("/documents/add/:email", uploadImage().single('file'), async (req, r
         documentImage: fileName,
         userEmail: email
       })
-
       document.save()
         .then(() => {
-          res.redirect(`/user/?email=${email}`);
+          res.redirect(`/user`);
         }).catch((err) => {
           console.log('ERR', err)
         });
@@ -123,5 +117,13 @@ router.post("/documents/add/:email", uploadImage().single('file'), async (req, r
 }
 );
 
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    next()
+
+  } else {
+    res.redirect('/auth/login');
+  }
+}
 
 module.exports = router;

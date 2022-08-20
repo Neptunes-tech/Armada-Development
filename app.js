@@ -11,6 +11,9 @@ const { ensureLoggedIn } = require("connect-ensure-login");
 const { roles } = require("./utils/constants");
 const fileUpload = require("express-fileupload")
 
+const User = require('./models/user.model');
+
+
 // Initialization
 const app = express();
 app.use(morgan("dev"));
@@ -18,24 +21,47 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// const fileUpload = require("express-fileupload")
-// app.use(fileUpload({
-//     useTempFiles: true
-// }))
+
+let users = []
+
+const initializePassport = require('./passport-config')
+
+// initializePassport(
+//   passport,
+//   email => getUser().find(user => user.email === email),
+//   id => getUser().find(user => user._id === id)
+// )
+
+const getUser = async (req, res) => {
+  try {
+    User.find({}, async (err, data) => {
+      initializePassport(
+        passport,
+        email => data.find(user => user.email === email),
+        id => data.find(user => user._id === id)
+      )
+    })
+  } catch (error) {
+
+  }
+}
+
+getUser()
+
 const MongoStore = connectMongo(session);
-// // Init Session
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       // secure: true,
-//       httpOnly: true,
-//     },
-//     store: new MongoStore({ mongooseConnection: mongoose.connection }),
-//   })
-// );
+// Init Session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      // secure: true,
+      httpOnly: true,
+    },
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  })
+);
 
 // For Passport JS Authentication
 app.use(passport.initialize());
@@ -43,16 +69,16 @@ app.use(passport.session());
 require("./utils/passport.auth");
 
 app.use((req, res, next) => {
-  res.locals.user = req.user;
+  res.locals.user = req.user
   next();
 });
 
 // Connect Flash
 app.use(connectFlash());
-// app.use((req, res, next) => {
-//   res.locals.messages = req.flash();
-//   next();
-// });
+app.use((req, res, next) => {
+  res.locals.messages = req.flash();
+  next();
+});
 
 // Routes
 
@@ -61,18 +87,12 @@ app.use("/auth", require("./routes/auth.route"));
 app.use("/user", require("./routes/user.route"));
 app.use("/doctor", require("./routes/doctor.route"));
 
-app.use('/',(req,res)=>{
+app.use('/', (req, res) => {
   res.render('header', {
     path: 'header'
     // documents: data
   })
 })
-
-// app.use('/auth/login',(req,res)=>{
-//   res.render('register', {
-//     path: 'register'
-//   })
-// })
 
 app.use(
   "/admin",
@@ -83,30 +103,30 @@ app.use(
 
 
 // 404 Handler
-// app.use((req, res, next) => {
-//   next(createHttpError.NotFound());
-// });
+app.use((req, res, next) => {
+  next(createHttpError.NotFound());
+});
 app.use(fileUpload({
-    useTempFiles: true
+  useTempFiles: true
 }))
-// // Error Handler
-// app.use((error, req, res, next) => {
-//   error.status = error.status || 500;
-//   res.status(error.status);
-//   res.render("error_40x", { error });
-// });
+// Error Handler
+app.use((error, req, res, next) => {
+  error.status = error.status || 500;
+  res.status(error.status);
+  res.render("error_40x", { error });
+});
 
 // Setting the PORT
 const PORT = process.env.PORT || 3000;
 
 // Making a connection to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
-    dbName: process.env.DB_NAME,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
+  dbName: process.env.DB_NAME,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+})
   .then(() => {
     console.log("💾 connected...");
     // Listening for connections on the defined PORT
@@ -127,7 +147,7 @@ function ensureAdmin(req, res, next) {
   if (req.user.role === roles.admin) {
     next();
   } else {
-    req.flash("warning", "you are not Authorized to see this route");
+    connectFlash("warning", "you are not Authorized to see this route");
     res.redirect("/");
   }
 }

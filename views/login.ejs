@@ -2,7 +2,7 @@
 <form method="post" action="/auth/login" class="lg-form">
   <div>
     <label for="email">Email</label>
-    <input type="email" name="email" id="email2" onchange=emailSave() />
+    <input type="email" name="email"/>
   </div>
   <div>
     <label for="password">Password</label>
@@ -20,9 +20,5 @@
 </div>
 <br />
 <script>
-  function emailSave() {
-    console.log(document.getElementById('email2').value)
-    localStorage.setItem('email',document.getElementById('email2').value)
-  }
 </script>
 <%- include('./footer.ejs') %>
