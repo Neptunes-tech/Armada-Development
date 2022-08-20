@@ -5,3 +5,7 @@ In index.ejs
 - To add a new Document Add Document link is placed at the top of the list, after clicking this link the page is directed to a route (/user/addDocs), Now this page consist a form with required fields (Title , System, Effective Date, Document).After Submitting it calls a route (user/documents/add) to add document by through cloudinary in mongoDb.
 
 The Authentication and mongoose code that was commented out is uncommented, corrected and all authentication conditions i.e user login/logout is working !!
+
+No libraries is included only passport is configured which was already injected previously 
+
+However the libraries ensure login ensure logout is not used to check the user status because it was much complex
