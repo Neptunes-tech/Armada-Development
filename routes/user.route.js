@@ -27,6 +27,7 @@ router.get("/", checkAuthenticated, async (req, res) => {
             message: 'Something Went Wrong!'
           })
         }
+        console.log('data',data)
         res.render('index', {
           path: 'index',
           documents: data,
@@ -41,6 +42,7 @@ router.get("/", checkAuthenticated, async (req, res) => {
             message: 'Something Went Wrong!'
           })
         }
+        console.log('data',data)
         res.render('index', {
           path: 'index',
           documents: data,
@@ -87,7 +89,7 @@ router.post("/documents/add", checkAuthenticated, uploadImage().single('file'), 
     const { body } = req
     let fileName = req.file != null ? req.file : null
 
-    cloudinary.uploader.upload(fileName?.path, async (err, result) => {
+    cloudinary.uploader.upload(fileName?.path,{folder: 'documents'}, async (err, result) => {
       if (err) {
         return res.send({
           success: false,
